@@ -34,8 +34,6 @@ namespace Whiteboard_SignalR_p5
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-                context.Coordinates.Add(new Coordinate() { PreviousX = 0, PreviousY = 0, NewX = 0, NewY = 0 });
-                context.SaveChanges();
             }
             app.UseFileServer();
             app.UseSignalR(routes =>
