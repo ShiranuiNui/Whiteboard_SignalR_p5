@@ -216,5 +216,5 @@ __pycache__/
 # Windows thumbnail cache files
 Thumbs.db
 
-# FUN Infomation Source
-src/Database/data/
+# SQLite Database (Binary)
+/Database/

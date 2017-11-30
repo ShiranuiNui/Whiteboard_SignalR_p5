@@ -5,7 +5,7 @@ function setup()
     rect(0, 0, 639, 479);
     frameRate(30);
     strokeWeight(3);
-    connection = new signalR.HubConnection('http://localhost:5000/draw');
+    connection = new signalR.HubConnection('/draw');
     connection.on('draw', function (prev_x, prev_y, x, y)
     {
         drawLineonReceived(prev_x, prev_y, x, y)
