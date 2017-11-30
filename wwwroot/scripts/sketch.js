@@ -10,6 +10,15 @@ function setup()
     {
         drawLineonReceived(prev_x, prev_y, x, y)
     });
+    connection.on('init', function (data)
+    {
+        initialCoordinates = JSON.parse(data);
+        console.log(initialCoordinates);
+        initialCoordinates.forEach(element =>
+        {
+            drawLineonReceived(element["PreviousX"], element["PreviousY"], element["NewX"], element["NewY"]);
+        });
+    });
     connection.start();
 }
 let past_x = 0;
