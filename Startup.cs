@@ -26,6 +26,7 @@ namespace Whiteboard_SignalR_p5
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseFileServer();
             app.UseSignalR(routes =>
             {
                 routes.MapHub<WhiteboardHub>("draw");
