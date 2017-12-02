@@ -2,9 +2,11 @@ let connection;
 function setup()
 {
     createCanvas(640, 480);
-    rect(0, 0, 639, 479);
     frameRate(30);
     strokeWeight(3);
+    background(255, 255, 255);
+    let button = createButton('ぜんしょうきょ');
+    button.mousePressed(allDelete)
     connection = new signalR.HubConnection('/draw');
     connection.on('draw', function (prev_x, prev_y, x, y)
     {
@@ -19,7 +21,14 @@ function setup()
             drawLineonReceived(element["PreviousX"], element["PreviousY"], element["NewX"], element["NewY"]);
         });
     });
+    connection.on('alldelete', function (data)
+    {
+        background(255, 255, 255);
+        rect(0, 0, 639, 479);
+
+    });
     connection.start();
+    rect(0, 0, 639, 479);
 }
 let past_x = 0;
 let past_y = 0;
@@ -49,4 +58,8 @@ function drawLineonSelf()
 function drawLineonReceived(x1, y1, x2, y2)
 {
     line(x1, y1, x2, y2);
+}
+function allDelete()
+{
+    connection.invoke('alldelete');
 }

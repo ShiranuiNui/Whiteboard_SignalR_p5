@@ -26,5 +26,12 @@ namespace Whiteboard_SignalR_p5.Hubs
             dbcontext.SaveChanges();
             return Clients.AllExcept(new List<string> { Context.ConnectionId }).InvokeAsync("draw", prevX, prevY, currentX, currentY);
         }
+        public Task AllDelete()
+        {
+            var alldata = dbcontext.Coordinates.Where(x => true).Select(x => x).ToList();
+            dbcontext.Coordinates.RemoveRange(alldata);
+            dbcontext.SaveChanges();
+            return Clients.All.InvokeAsync("alldelete");
+        }
     }
 }
