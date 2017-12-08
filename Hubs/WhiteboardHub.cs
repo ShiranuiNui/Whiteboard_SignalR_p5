@@ -20,18 +20,18 @@ namespace Whiteboard_SignalR_p5.Hubs
             string initialCoordinates = JsonConvert.SerializeObject(dbcontext.Coordinates.Select(x => x));
             await Clients.Client(Context.ConnectionId).InvokeAsync("init", initialCoordinates);
         }
-        public Task Draw(int prevX, int prevY, int currentX, int currentY)
+        public async Task Draw(int prevX, int prevY, int currentX, int currentY)
         {
             dbcontext.Coordinates.Add(new Coordinate() { PreviousX = prevX, PreviousY = prevY, NewX = currentX, NewY = currentY });
-            dbcontext.SaveChanges();
-            return Clients.AllExcept(new List<string> { Context.ConnectionId }).InvokeAsync("draw", prevX, prevY, currentX, currentY);
+            await Clients.AllExcept(new List<string> { Context.ConnectionId }).InvokeAsync("draw", prevX, prevY, currentX, currentY);
+            await dbcontext.SaveChangesAsync();
         }
-        public Task AllDelete()
+        public async Task AllDelete()
         {
             var alldata = dbcontext.Coordinates.Where(x => true).Select(x => x).ToList();
             dbcontext.Coordinates.RemoveRange(alldata);
-            dbcontext.SaveChanges();
-            return Clients.All.InvokeAsync("alldelete");
+            await dbcontext.SaveChangesAsync();
+            await Clients.All.InvokeAsync("alldelete");
         }
     }
 }
