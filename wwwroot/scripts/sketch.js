@@ -6,8 +6,7 @@ function setup() {
     background(255, 255, 255);
     let button = createButton('ぜんしょうきょ');
     button.mousePressed(allDelete)
-    let uri = document.location.host.substring(0, document.location.host.indexOf('sketch.js'));
-    connection = new signalR.HubConnection(`${uri}/draw`);
+    connection = new signalR.HubConnection(`${document.location.href}/draw`);
     connection.on('draw', function (prev_x, prev_y, x, y) {
         drawLineonReceived(prev_x, prev_y, x, y)
     });
