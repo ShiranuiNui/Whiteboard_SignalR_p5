@@ -6,13 +6,12 @@ function setup() {
     background(255, 255, 255);
     let button = createButton('ぜんしょうきょ');
     button.mousePressed(allDelete)
-    connection = new signalR.HubConnection(`${document.location.href}/draw`);
+    connection = new signalR.HubConnection(`${document.location.href}draw`);
     connection.on('draw', function (prev_x, prev_y, x, y) {
         drawLineonReceived(prev_x, prev_y, x, y)
     });
     connection.on('init', function (data) {
         initialCoordinates = JSON.parse(data);
-        console.log(initialCoordinates);
         initialCoordinates.forEach(element => {
             drawLineonReceived(element["PreviousX"], element["PreviousY"], element["NewX"], element["NewY"]);
         });
