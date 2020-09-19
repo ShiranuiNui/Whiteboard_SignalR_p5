@@ -10,8 +10,9 @@ namespace Whiteboard_SignalR_p5.Contexts
         public CoordinatesContext() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionstring = new SqliteConnectionStringBuilder { DataSource = "Database/coordinates.db" };
-            optionsBuilder.UseSqlite(connectionstring.ToString());
+            var connectionString =
+                new SqliteConnectionStringBuilder { DataSource = "coordinates.db" }.ToString();
+            optionsBuilder.UseSqlite(new SqliteConnection(connectionString));
         }
     }
 }

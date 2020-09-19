@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Whiteboard_SignalR_p5.Contexts;
 using Whiteboard_SignalR_p5.Hubs;
-using Whiteboard_SignalR_p5.Models;
 
 namespace Whiteboard_SignalR_p5
 {
@@ -24,21 +18,23 @@ namespace Whiteboard_SignalR_p5
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            using(var context = new CoordinatesContext())
+            using (var context = new CoordinatesContext())
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
             }
-            app.UseFileServer();
-            app.UseSignalR(routes =>
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<WhiteboardHub>("draw");
+                endpoints.MapHub<WhiteboardHub>("/draw");
             });
         }
     }

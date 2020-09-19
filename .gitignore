@@ -217,4 +217,4 @@ __pycache__/
 Thumbs.db
 
 # SQLite Database (Binary)
-/Database/
+coordinates.db

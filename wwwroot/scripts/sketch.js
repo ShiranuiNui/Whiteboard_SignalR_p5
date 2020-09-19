@@ -4,9 +4,12 @@ function setup() {
     frameRate(30);
     strokeWeight(3);
     background(255, 255, 255);
-    let button = createButton('ぜんしょうきょ');
+    let button = createButton('All DELETE!');
     button.mousePressed(allDelete)
-    connection = new signalR.HubConnection(`${document.location.href}draw`);
+    connection = new signalR.HubConnectionBuilder()
+        .withUrl(`/draw`)
+        .configureLogging(signalR.LogLevel.Debug)
+        .build();
     connection.on('draw', function (prev_x, prev_y, x, y) {
         drawLineonReceived(prev_x, prev_y, x, y)
     });
